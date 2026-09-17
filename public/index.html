@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D4C Embed Builder</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- Login overlay -->
+  <div id="login-overlay" class="login-overlay">
+    <div class="login-box">
+      <h1>D4C Embed Builder</h1>
+      <p class="muted">Enter your dashboard key to continue.</p>
+      <input type="password" id="login-key" placeholder="Dashboard key" autocomplete="off" />
+      <button id="login-btn" class="btn btn-primary">Unlock</button>
+      <p id="login-error" class="error-text"></p>
+    </div>
+  </div>
+
+  <!-- Main app -->
+  <div id="app" class="app hidden">
+    <header class="app-header">
+      <h1>D4C Control Center</h1>
+      <div class="header-right">
+        <select id="guild-select" class="guild-select" aria-label="Select server">
+          <option value="">Select server</option>
+        </select>
+        <span id="channel-status" class="channel-status muted">No channel set</span>
+        <button id="logout-btn" class="btn btn-ghost btn-sm">Lock</button>
+      </div>
+    </header>
+
+    <section class="control-center">
+      <div class="control-heading">
+        <div>
+          <p class="eyebrow">OPERATIONS</p>
+          <h2 id="selected-guild-name">Choose a server to manage</h2>
+        </div>
+        <div id="guild-stats" class="stats-line muted">No server selected</div>
+      </div>
+      <div class="control-grid">
+        <section class="card control-card">
+          <h2>Send Message</h2>
+          <select id="control-channel" aria-label="Message channel"><option value="">Select channel</option></select>
+          <textarea id="control-message" placeholder="Write a message to send..."></textarea>
+          <button id="control-send-message" class="btn btn-primary">Send message</button>
+        </section>
+        <section class="card control-card">
+          <h2>Moderate Member</h2>
+          <input id="mod-user-id" type="text" placeholder="Member ID" />
+          <div class="row">
+            <select id="mod-action"><option value="timeout">Timeout</option><option value="untimeout">Remove timeout</option><option value="kick">Kick</option><option value="ban">Ban</option></select>
+            <input id="mod-duration" type="text" value="10m" placeholder="10m" />
+          </div>
+          <input id="mod-reason" type="text" placeholder="Reason (optional)" />
+          <button id="mod-submit" class="btn btn-danger">Apply action</button>
+        </section>
+        <section class="card control-card">
+          <h2>Music Control</h2>
+          <div id="music-now" class="music-now muted">No music state</div>
+          <div class="button-grid">
+            <button class="btn btn-secondary music-action" data-action="pause">Pause</button>
+            <button class="btn btn-secondary music-action" data-action="resume">Resume</button>
+            <button class="btn btn-secondary music-action" data-action="skip">Next</button>
+            <button class="btn btn-danger music-action" data-action="stop">Stop</button>
+          </div>
+          <div class="row"><input id="music-volume" type="number" min="0" max="200" value="100" /><button id="music-volume-btn" class="btn btn-secondary">Set volume</button></div>
+        </section>
+        <section class="card control-card">
+          <h2>Verification</h2>
+          <select id="verify-channel" aria-label="Verification channel"><option value="">Select verify channel</option></select>
+          <div class="button-grid"><button id="verify-save" class="btn btn-secondary">Save channel</button><button id="verify-lock" class="btn btn-danger">Lock server</button></div>
+          <p class="muted">Locking hides server channels from unverified members except the selected channel.</p>
+        </section>
+        <section class="card control-card">
+          <h2>Purge Messages</h2>
+          <select id="purge-channel" aria-label="Purge channel"><option value="">Select channel</option></select>
+          <div class="row"><input id="purge-amount" type="number" min="1" max="100" value="10" /><button id="purge-submit" class="btn btn-danger">Delete messages</button></div>
+        </section>
+      </div>
+    </section>
+
+    <div class="layout">
+      <!-- Left: Templates + Channel -->
+      <main class="builder">
+        <!-- Target channel -->
+        <section class="card">
+          <h2>1. Paste Channel ID</h2>
+          <div class="row">
+            <input type="text" id="channel-id" placeholder="Discord Channel ID (e.g. 123456789012345678)" />
+            <button id="validate-channel-btn" class="btn btn-secondary btn-sm">Check</button>
+          </div>
+        </section>
+
+        <!-- Template selector -->
+        <section class="card">
+          <h2>2. Choose a Template</h2>
+          <div class="template-grid">
+            <button class="template-btn active" data-template="announcement">
+              <span class="template-icon">📢</span>
+              <span class="template-name">Announcement</span>
+            </button>
+            <button class="template-btn" data-template="event">
+              <span class="template-icon">🎉</span>
+              <span class="template-name">Event</span>
+            </button>
+            <button class="template-btn" data-template="giveaway">
+              <span class="template-icon">🎁</span>
+              <span class="template-name">Giveaway</span>
+            </button>
+            <button class="template-btn" data-template="welcome">
+              <span class="template-icon">👋</span>
+              <span class="template-name">Welcome</span>
+            </button>
+            <button class="template-btn" data-template="changelog">
+              <span class="template-icon">📝</span>
+              <span class="template-name">Changelog</span>
+            </button>
+            <button class="template-btn" data-template="rules">
+              <span class="template-icon">📜</span>
+              <span class="template-name">Rules</span>
+            </button>
+            <button class="template-btn" data-template="serverUpdate">
+              <span class="template-icon">🚀</span>
+              <span class="template-name">Server Update</span>
+            </button>
+            <button class="template-btn" data-template="application">
+              <span class="template-icon">📋</span>
+              <span class="template-name">Application</span>
+            </button>
+            <button class="template-btn" data-template="partnership">
+              <span class="template-icon">🤝</span>
+              <span class="template-name">Partnership</span>
+            </button>
+            <button class="template-btn" data-template="warning">
+              <span class="template-icon">⚠️</span>
+              <span class="template-name">Warning</span>
+            </button>
+            <button class="template-btn" data-template="faq">
+              <span class="template-icon">❓</span>
+              <span class="template-name">FAQ</span>
+            </button>
+            <button class="template-btn" data-template="poll">
+              <span class="template-icon">📊</span>
+              <span class="template-name">Poll</span>
+            </button>
+            <button class="template-btn" data-template="shoutout">
+              <span class="template-icon">📣</span>
+              <span class="template-name">Shoutout</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Send button -->
+        <div class="send-row">
+          <button id="send-btn" class="btn btn-primary btn-lg">Send to Discord</button>
+          <span id="send-status" class="muted"></span>
+        </div>
+      </main>
+
+      <!-- Right: Live Preview (editable canvas) -->
+      <aside class="preview-panel">
+        <h2 class="preview-title">3. Edit & Preview (click text to edit)</h2>
+        <div class="discord-preview" id="preview">
+          <div class="discord-message">
+            <div class="discord-avatar"></div>
+            <div class="discord-content">
+              <div class="discord-header">
+                <span class="discord-username">D4C Bot</span>
+                <span class="discord-bot-badge">BOT</span>
+                <span class="discord-timestamp">Today at 12:00</span>
+              </div>
+              <div class="discord-embed" id="preview-embed">
+                <div class="embed-color-bar"></div>
+                <div class="embed-inner">
+                  <div class="embed-title" id="preview-title" contenteditable="true">📢 Announcement</div>
+                  <div class="embed-description" id="preview-description" contenteditable="true">Important news for all members!</div>
+                  <div class="embed-fields" id="preview-fields"></div>
+                  <div class="embed-footer" id="preview-footer">D4C Dashboard</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-actions">
+            <button id="add-section-btn" class="btn btn-success btn-sm">+ Add Section</button>
+            <span class="muted">Click any text to edit • ✕ on a section to remove it</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

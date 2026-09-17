@@ -1,0 +1,10 @@
+node_modules/
+.env
+npm-debug.log*
+data/owners.json
+data/bot.pid
+recordings/
+tools/yt-dlp.exe
+
+cookies.txt
+tools/yt-cookies.txt

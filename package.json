@@ -1,0 +1,29 @@
+{
+  "name": "d4c-discord-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A multipurpose Discord bot with announcements, music playback, voice tools, and a web embed-builder dashboard.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "check": "node --check src/index.js && node --check src/commands/ann.js && node --check src/commands/music.js && node --check src/commands/deployCommands.js && node --check src/musicPlayer.js && node --check src/recorder.js && node --check src/dashboard.js && node --check src/embedHelper.js",
+    "deploy-commands": "node src/commands/deployCommands.js",
+    "test": "node test/e2eTest.js"
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "@discordjs/voice": "^0.19.2",
+    "discord.js": "^14.26.3",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "ffmpeg-static": "^5.3.0",
+    "libsodium-wrappers": "^0.8.4",
+    "opusscript": "^0.0.8",
+    "play-dl": "^1.9.7",
+    "prism-media": "^1.3.5",
+    "yt-dlp-wrap": "^2.3.12"
+  }
+}
